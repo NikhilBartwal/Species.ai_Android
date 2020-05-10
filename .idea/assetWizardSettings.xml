@@ -33,10 +33,11 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="backgroundLayerName" value="ic_splash_bg" />
-                                      <entry key="foregroundImage" value="C:\Users\nikhil\Downloads\spcAI.png" />
-                                      <entry key="foregroundLayerName" value="ic_splash_fg" />
-                                      <entry key="outputName" value="splash" />
+                                      <entry key="backgroundImage" value="C:\Users\nikhil\Downloads\birds.PNG" />
+                                      <entry key="backgroundLayerName" value="ic_birds_bg" />
+                                      <entry key="foregroundImage" value="C:\Users\nikhil\Downloads\birds.PNG" />
+                                      <entry key="foregroundLayerName" value="ic_birds_fg" />
+                                      <entry key="outputName" value="birds" />
                                     </map>
                                   </option>
                                 </PersistentState>

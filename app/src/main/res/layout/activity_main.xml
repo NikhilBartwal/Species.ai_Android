@@ -29,22 +29,16 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
                 card_view:cardElevation="5dp"
-                card_view:cardCornerRadius="40dp">
+                card_view:cardCornerRadius="40dp"
+                card_view:cardPreventCornerOverlap="true"
+                card_view:cardBackgroundColor="@color/colorPrimary">
 
                 <RelativeLayout
                     android:layout_height="match_parent"
                     android:layout_width="match_parent"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:background="@mipmap/plant_round">
 
-
-                    <ImageView
-                        android:id="@+id/plant_image"
-                        android:layout_width="117dp"
-                        android:layout_height="97dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="20dp"
-                        app:srcCompat="@mipmap/ic_launcher" />
 
                     <Button
                         android:id="@+id/plant_upload"
@@ -53,7 +47,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="22dp"
-                        android:text="Button" />
+                        android:text="Explore" />
                 </RelativeLayout>
 
             </android.support.v7.widget.CardView>
@@ -80,17 +74,9 @@
                 <RelativeLayout
                     android:layout_height="match_parent"
                     android:layout_width="match_parent"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:background="@mipmap/animal">
 
-
-                    <ImageView
-                        android:id="@+id/animal_image"
-                        android:layout_width="117dp"
-                        android:layout_height="97dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="20dp"
-                        app:srcCompat="@mipmap/ic_launcher" />
 
                     <Button
                         android:id="@+id/animal_upload"
@@ -99,7 +85,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="22dp"
-                        android:text="Button" />
+                        android:text="Proceed" />
                 </RelativeLayout>
 
             </android.support.v7.widget.CardView>
@@ -127,17 +113,9 @@
                 <RelativeLayout
                     android:layout_height="match_parent"
                     android:layout_width="match_parent"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:background="@mipmap/birds">
 
-
-                    <ImageView
-                        android:id="@+id/bird_image"
-                        android:layout_width="117dp"
-                        android:layout_height="97dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="20dp"
-                        app:srcCompat="@mipmap/ic_launcher" />
 
                     <Button
                         android:id="@+id/bird_upload"
@@ -146,7 +124,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="22dp"
-                        android:text="Button" />
+                        android:text="Upload" />
                 </RelativeLayout>
 
             </android.support.v7.widget.CardView>
