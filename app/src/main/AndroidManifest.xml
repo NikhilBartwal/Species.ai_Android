@@ -22,14 +22,14 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name="com.at.nikhil.speciesai.MainActivity">
+        <activity android:name=".splashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.at.nikhil.speciesai.splashScreen" />
+        <activity android:name="com.at.nikhil.speciesai.MainActivity" />
         <activity android:name="com.at.nikhil.speciesai.ImageViewer" />
         <activity android:name="com.at.nikhil.speciesai.BaseActivity"></activity>
     </application>

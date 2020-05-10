@@ -33,10 +33,10 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="backgroundLayerName" value="ic_spai_bg" />
+                                      <entry key="backgroundLayerName" value="ic_splash_bg" />
                                       <entry key="foregroundImage" value="C:\Users\nikhil\Downloads\spcAI.png" />
-                                      <entry key="foregroundLayerName" value="ic_spai_fg" />
-                                      <entry key="outputName" value="speciesai" />
+                                      <entry key="foregroundLayerName" value="ic_splash_fg" />
+                                      <entry key="outputName" value="splash" />
                                     </map>
                                   </option>
                                 </PersistentState>

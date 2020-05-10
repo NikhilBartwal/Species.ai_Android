@@ -37,9 +37,6 @@ import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends BaseActivity {
-    private String userChosenTask;
-    private String currImagePath;
-    private Uri currImageURI;
     private Button plant_uploaad,animal_upload,bird_upload;
 
     @Override
@@ -54,7 +51,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 type = 0;
-                selectImage();
+                selectImage(MainActivity.this);
             }
         });
 
@@ -62,7 +59,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 type = 1;
-                selectImage();
+                selectImage(MainActivity.this);
             }
         });
 
@@ -70,7 +67,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 type = 2;
-                selectImage();
+                selectImage(MainActivity.this);
             }
         });
 
@@ -130,6 +127,7 @@ public class MainActivity extends BaseActivity {
         intent.putExtra("imageURI",imageUri.toString());
         intent.putExtra("fromCamera",fromCamera);
         intent.putExtra("type",type);
+        startActivity(intent);
     }
 
 
