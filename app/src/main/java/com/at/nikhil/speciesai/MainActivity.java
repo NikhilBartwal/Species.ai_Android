@@ -63,7 +63,7 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        animal_upload.setOnClickListener(new View.OnClickListener() {
+        bird_upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 type = 2;

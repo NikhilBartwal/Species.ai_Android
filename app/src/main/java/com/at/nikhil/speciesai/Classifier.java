@@ -115,7 +115,7 @@ public class Classifier {
 
         inputImageBuffer = new TensorImage(imageDataType);
         outputProbabilityBuffer = TensorBuffer.createFixedSize(probabilityShape,probabilityDataTYpe);
-        probabilityProcessor = new TensorProcessor.Builder().build();
+        probabilityProcessor = new TensorProcessor.Builder().add(new NormalizeOp(0.0f,1.0f)).build();
 
     }
 
@@ -130,7 +130,7 @@ public class Classifier {
         }
         matrix.postScale(scaleWidth,scaleHeight);
         Bitmap res_bm = Bitmap.createBitmap(bitmap,0,0,bitmap.getWidth(),bitmap.getHeight(),matrix,true);
-        ImageProcessor imageProcessor = new ImageProcessor.Builder().add(new NormalizeOp(0.0f,255f)).build();
+        ImageProcessor imageProcessor = new ImageProcessor.Builder().add(new NormalizeOp(0.0f,255.0f)).build();
         inputImageBuffer.load(res_bm);
         return  imageProcessor.process(inputImageBuffer);
     }
@@ -183,8 +183,11 @@ public class Classifier {
         if(type == 0){
             return "plant_model.tflite";
         }
-        else{
+        else if(type == 1){
             return "animal_model.tflite";
+        }
+        else{
+            return "bird_model.tflite";
         }
 
     }
@@ -193,8 +196,11 @@ public class Classifier {
         if(type == 0){
             return "labels.txt";
         }
-        else{
+        else if(type == 1){
             return "animal_labels.txt";
+        }
+        else{
+            return "bird_labels.txt";
         }
     }
 

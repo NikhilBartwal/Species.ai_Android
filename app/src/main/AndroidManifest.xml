@@ -29,9 +29,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.at.nikhil.speciesai.MainActivity" />
-        <activity android:name="com.at.nikhil.speciesai.ImageViewer" />
-        <activity android:name="com.at.nikhil.speciesai.BaseActivity"></activity>
+        <activity android:name=".MainActivity" />
+        <activity android:name=".ImageViewer" />
+        <activity android:name=".BaseActivity" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
+        <activity android:name=".SpeciesInfo"></activity>
     </application>
 
 </manifest>
