@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -29,6 +30,9 @@ public class ImageViewer extends BaseActivity {
     private Classifier classifier;
     private boolean UPLOADED = false;
     private String imageUriString;
+    private TextView first_result_tv,second_result_tv,third_result_tv;
+    private TextView first_result_score,second_result_score,third_result_score;
+    private CardView first,second,third;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,17 @@ public class ImageViewer extends BaseActivity {
         predictionResult = findViewById(R.id.predictionResult);
         reupload_button = findViewById(R.id.reupload_button);
         predict_button = findViewById(R.id.predict_button);
+
+        first_result_tv = findViewById(R.id.first_result_tv);
+        second_result_tv = findViewById(R.id.second_result_tv);
+        third_result_tv = findViewById(R.id.third_result_tv);
+        first_result_score = findViewById(R.id.first_result_score);
+        second_result_score = findViewById(R.id.second_result_score);
+        third_result_score = findViewById(R.id.third_result_score);
+
+        first = findViewById(R.id.first_result_cv);
+        second = findViewById(R.id.second_result_cv);
+        third = findViewById(R.id.third_result_cv);
 
         Bundle data = getIntent().getExtras();
         imageUriString = data.getString("imageURI");
@@ -72,13 +87,16 @@ public class ImageViewer extends BaseActivity {
                         e.printStackTrace();
                     }
                     List<Classifier.Recognition> results = classifier.recognizeImage(bm,phototakenByCamera);
-                    String prediction = results.get(0).getTitle();
-                    Intent intent = new Intent(ImageViewer.this,SpeciesInfo.class);
-                    intent.putExtra("Prediction",prediction);
-                    intent.putExtra("imageURI",imageUriString);
-                    intent.putExtra("type",type);
-                    startActivity(intent);
-                    predictionResult.setText("Prediction: " + prediction);
+                    first_result_tv.setText(results.get(0).getTitle());
+                    first_result_score.setText(String.format(getString(R.string.floatLocale),results.get(0).getConfidence()*100.0f));
+                    second_result_tv.setText(results.get(1).getTitle());
+                    second_result_score.setText(String.format(getString(R.string.floatLocale),results.get(1).getConfidence()*100.0f));
+                    third_result_tv.setText(results.get(2).getTitle());
+                    third_result_score.setText(String.format(getString(R.string.floatLocale),results.get(2).getConfidence()*100.0f));
+                    predictionResult.setVisibility(View.VISIBLE);
+                    first.setVisibility(View.VISIBLE);
+                    second.setVisibility(View.VISIBLE);
+                    third.setVisibility(View.VISIBLE);
                     classifier.close();
                 }
                 else if(!UPLOADED){
@@ -93,6 +111,35 @@ public class ImageViewer extends BaseActivity {
             }
         });
 
+        first.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendPrediction(first_result_tv.getText().toString());
+            }
+        });
+
+        second.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendPrediction(second_result_tv.getText().toString());
+            }
+        });
+
+        third.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendPrediction(third_result_tv.getText().toString());
+            }
+        });
+
+    }
+
+    private void sendPrediction(String prediction){
+        Intent intent = new Intent(ImageViewer.this,SpeciesInfo.class);
+        intent.putExtra("Prediction",prediction);
+        intent.putExtra("imageURI",imageUriString);
+        intent.putExtra("type",type);
+        startActivity(intent);
     }
 
     @Override
@@ -112,6 +159,7 @@ public class ImageViewer extends BaseActivity {
 
     private void onCaptureImageResult(Intent data) {
         Uri imageUri = currImageURI;
+        imageUriString = currImageURI.toString();
         try {
             Bitmap bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(),imageUri);
             ivImage.setImageBitmap(bm);
@@ -123,6 +171,7 @@ public class ImageViewer extends BaseActivity {
     @SuppressWarnings("deprecation")
     private void onSelectFromGalleryResult(Intent data) {
         Uri imageUri = data.getData();
+        imageUriString = imageUri.toString();
         try {
             Bitmap bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(),imageUri);
             ivImage.setImageBitmap(bm);
