@@ -21,6 +21,8 @@ public class SpeciesInfo extends AppCompatActivity implements DataCellAdapter.It
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     ArrayList<DataCell> dataCells;
+    private int type;
+    private String table;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,15 +38,29 @@ public class SpeciesInfo extends AppCompatActivity implements DataCellAdapter.It
         Bundle data = getIntent().getExtras();
         prediction = data.getString("Prediction");
         imageUri = Uri.parse(data.getString("imageURI"));
+        type = data.getInt("type");
+        if(type == 0)
+            table = "plantdata";
+        else if(type == 1)
+            table = "animaldata";
+        else{
+            table = "birddata";
+        }
         try {
             Bitmap bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(),imageUri);
             imageDisplay.setImageBitmap(bm);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        dataCells.add(new DataCell("Name","Species.AI"));
-        dataCells.add(new DataCell("Prediction",prediction));
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
+        databaseAccess.open();
+        ArrayList<SpeciesData> speciesData = databaseAccess.getData(table,prediction);
+        for(int i=0;i<speciesData.size();i++){
+            if(speciesData.get(i).getValue() != null)
+                dataCells.add(new DataCell(speciesData.get(i).getKey(),speciesData.get(i).getValue()));
+            else
+                continue;
+        }
 
         mAdapter = new DataCellAdapter(this,dataCells);
         recyclerView.setAdapter(mAdapter);

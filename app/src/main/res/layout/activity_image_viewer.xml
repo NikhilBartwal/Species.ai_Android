@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#000000">
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".ImageViewer">
+
+    <ImageView
+        android:id="@+id/ivImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        app:srcCompat="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/image_dims"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="@color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/ivImage"
+        android:layout_marginTop="40dp"/>
+
+    <RelativeLayout
+        android:id="@+id/button_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_below="@+id/image_dims">
+
+        <Button
+            android:id="@+id/reupload_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="50dp"
+            android:text="Re-Upload"
+            android:textColor="@color/white"
+            android:background="@drawable/custom_button"/>
+
+        <Button
+            android:id="@+id/predict_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Predict"
+            android:textColor="@color/white"
+            android:layout_marginRight="50dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/custom_button"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/predictionResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Prediction:"
+        android:layout_marginTop="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/button_layout"
+        android:textSize="20sp"
+        android:textColor="@color/white"/>
+
+</RelativeLayout>
+</ScrollView>
