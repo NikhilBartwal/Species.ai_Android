@@ -5,4 +5,7 @@
     <color name="colorAccent">#D81B60</color>
     <color name="mainMenuBackground">#375a8b</color>
     <color name="white">#ffffff</color>
+    <color name="colorButton">#1e88e5</color>
+    <color name="colorButtonDark">#005cb2</color>
+    <color name="colorButtonLight">#6ab7ff</color>
 </resources>

@@ -8,15 +8,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:weightSum="4">
+        android:weightSum="4"
+        android:background="@drawable/background">
 
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_weight="1"
-            android:background="@color/mainMenuBackground">
+            android:layout_weight="1">
 
             <RelativeLayout
                 android:layout_width="fill_parent"
@@ -45,7 +45,6 @@
                     android:text="Explore"
                     android:textColor="@color/white"
                     android:textSize="20sp"
-                    android:background="@drawable/custom_button"
                     android:textAllCaps="false"/>
             </RelativeLayout>
 
@@ -80,8 +79,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_weight="1"
-            android:background="@color/mainMenuBackground">
+            android:layout_weight="1">
 
             <android.support.v7.widget.CardView
                 xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -131,7 +129,6 @@
                     android:text="Proceed"
                     android:textColor="@color/white"
                     android:textSize="20sp"
-                    android:background="@drawable/custom_button"
                     android:textAllCaps="false"/>
 
             </RelativeLayout>
@@ -142,8 +139,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_weight="1"
-            android:background="@color/mainMenuBackground">
+            android:layout_weight="1">
 
             <RelativeLayout
                 android:layout_width="fill_parent"
@@ -172,7 +168,6 @@
                     android:text="Upload"
                     android:textColor="@color/white"
                     android:textSize="20sp"
-                    android:background="@drawable/custom_button"
                     android:textAllCaps="false"/>
 
             </RelativeLayout>
@@ -205,46 +200,52 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_weight="1"
-            android:background="@color/mainMenuBackground">
+            android:layout_weight="1">
 
-            <android.support.v7.widget.CardView
-                xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/search_card"
-                android:layout_alignParentStart="true"
-                android:layout_width="192dp"
-                android:layout_height="192dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="5dp"
-                card_view:cardElevation="5dp"
-                card_view:cardCornerRadius="40dp">
+            <TextView
+                android:id="@+id/search_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/courgette"
+                android:text="Search Manually"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                android:textStyle="bold"/>
 
-                <RelativeLayout
-                    android:layout_height="match_parent"
-                    android:layout_width="match_parent"
-                    android:orientation="vertical">
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/search_title"
+                android:layout_marginTop="20dp"
+                android:layout_toLeftOf="@+id/search_button"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="50dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:background="@layout/image_border"
+                android:ems="10"
+                android:fontFamily="@font/paprika"
+                android:inputType="textPersonName"
+                android:text="Enter species here"
+                android:textAlignment="center"
+                android:textColor="@color/white" />
 
+            <Button
+                android:id="@+id/search_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/search_title"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="20dp"
+                android:text="Search"/>
 
-                    <ImageView
-                        android:id="@+id/search_image"
-                        android:layout_width="117dp"
-                        android:layout_height="97dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="20dp"
-                        app:srcCompat="@mipmap/ic_launcher" />
-
-                    <Button
-                        android:id="@+id/search_upload"
-                        android:layout_width="119dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="22dp"
-                        android:text="Button" />
-                </RelativeLayout>
-
-            </android.support.v7.widget.CardView>
 
         </RelativeLayout>
 

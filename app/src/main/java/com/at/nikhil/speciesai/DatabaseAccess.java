@@ -33,7 +33,7 @@ public class DatabaseAccess {
 
     public ArrayList<SpeciesData> getData(String table,String prediction){
         ArrayList<SpeciesData> list = new ArrayList<>();
-        String sql = "SELECT * FROM " + table + " WHERE name = ?";
+        String sql = "SELECT * FROM " + table + " WHERE LOWER(name) = ?";
         Cursor cursor = database.rawQuery(sql,new String[]{prediction});
         cursor.moveToFirst();
         int numColumns = cursor.getColumnCount();

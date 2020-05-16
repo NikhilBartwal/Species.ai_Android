@@ -79,6 +79,9 @@ public class ImageViewer extends BaseActivity {
             }
             else
                 ivImage.setImageBitmap(bm);
+            String dims = "Image Dimensions: " + bm.getWidth() + " * " + bm.getHeight();
+            image_dims.setText(dims);
+            image_dims.setVisibility(View.VISIBLE);
             UPLOADED = true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -103,11 +106,16 @@ public class ImageViewer extends BaseActivity {
                         e.printStackTrace();
                     }
                     List<Classifier.Recognition> results = classifier.recognizeImage(bm);
-                    first_result_tv.setText(results.get(0).getTitle());
+                    if(results.get(0).getConfidence()*100.0f < 60.0f){
+                        predictionResult.setText("Sorry we couldn't find the selected species in the image!");
+                        predictionResult.setVisibility(View.VISIBLE);
+                        return;
+                    }
+                    first_result_tv.setText(results.get(0).getTitle().toLowerCase());
                     first_result_score.setText(String.format(getString(R.string.floatLocale),results.get(0).getConfidence()*100.0f));
-                    second_result_tv.setText(results.get(1).getTitle());
+                    second_result_tv.setText(results.get(1).getTitle().toLowerCase());
                     second_result_score.setText(String.format(getString(R.string.floatLocale),results.get(1).getConfidence()*100.0f));
-                    third_result_tv.setText(results.get(2).getTitle());
+                    third_result_tv.setText(results.get(2).getTitle().toLowerCase());
                     third_result_score.setText(String.format(getString(R.string.floatLocale),results.get(2).getConfidence()*100.0f));
                     predictionResult.setVisibility(View.VISIBLE);
                     first.setVisibility(View.VISIBLE);
@@ -183,6 +191,9 @@ public class ImageViewer extends BaseActivity {
             matrix.postRotate(90);
             Bitmap new_bm = Bitmap.createBitmap(bm,0,0,bm.getWidth(),bm.getHeight(),matrix,true);
             ivImage.setImageBitmap(new_bm);
+            String dims = "Image Dimensions: " + bm.getWidth() + " * " + bm.getHeight();
+            image_dims.setText(dims);
+            image_dims.setVisibility(View.VISIBLE);
             bm.recycle();
             saveNewImage(new_bm);
         } catch (IOException e) {
@@ -218,6 +229,9 @@ public class ImageViewer extends BaseActivity {
         try {
             Bitmap bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(),imageUri);
             ivImage.setImageBitmap(bm);
+            String dims = "Image Dimensions: " + bm.getWidth() + " * " + bm.getHeight();
+            image_dims.setText(dims);
+            image_dims.setVisibility(View.VISIBLE);
         } catch (IOException e) {
             e.printStackTrace();
         }
