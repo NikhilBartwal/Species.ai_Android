@@ -119,15 +119,10 @@ public class Classifier {
 
     }
 
-    private TensorImage loadImage(Bitmap bitmap,boolean photoTakenByCamera){
+    private TensorImage loadImage(Bitmap bitmap){
         Matrix matrix = new Matrix();
         float scaleHeight = imageSizeY/((float) bitmap.getHeight());
         float scaleWidth = imageSizeX/((float) bitmap.getWidth());
-        if(photoTakenByCamera){
-            matrix.postRotate(90);
-            scaleHeight = imageSizeY/((float) bitmap.getWidth());
-            scaleWidth = imageSizeX/((float) bitmap.getHeight());
-        }
         matrix.postScale(scaleWidth,scaleHeight);
         Bitmap res_bm = Bitmap.createBitmap(bitmap,0,0,bitmap.getWidth(),bitmap.getHeight(),matrix,true);
         ImageProcessor imageProcessor = new ImageProcessor.Builder().add(new NormalizeOp(0.0f,255.0f)).build();
@@ -147,8 +142,8 @@ public class Classifier {
         tfliteModel = null;
     }
 
-    public List<Recognition> recognizeImage(Bitmap bitmap,boolean photoTakenByCamera){
-        inputImageBuffer = loadImage(bitmap,photoTakenByCamera);
+    public List<Recognition> recognizeImage(Bitmap bitmap){
+        inputImageBuffer = loadImage(bitmap);
         tflite.run(inputImageBuffer.getBuffer(),outputProbabilityBuffer.getBuffer().rewind());
         Map<String,Float> labeledProbability =
                 new TensorLabel(labels,probabilityProcessor.process(outputProbabilityBuffer)).getMapWithFloatValue();

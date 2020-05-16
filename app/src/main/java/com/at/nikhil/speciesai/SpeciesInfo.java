@@ -1,6 +1,7 @@
 package com.at.nikhil.speciesai;
 
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -23,7 +24,7 @@ public class SpeciesInfo extends AppCompatActivity implements DataCellAdapter.It
     ArrayList<DataCell> dataCells;
     private int type;
     private String table;
-
+    private boolean photoTakenByCamera;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,10 +35,10 @@ public class SpeciesInfo extends AppCompatActivity implements DataCellAdapter.It
         recyclerView.setLayoutManager(layoutManager);
         dataCells = new ArrayList<DataCell>();
         imageDisplay = findViewById(R.id.imageDisplay);
-
         Bundle data = getIntent().getExtras();
         prediction = data.getString("Prediction");
         imageUri = Uri.parse(data.getString("imageURI"));
+        photoTakenByCamera = data.getBoolean("camera");
         type = data.getInt("type");
         if(type == 0)
             table = "plantdata";

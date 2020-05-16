@@ -3,10 +3,13 @@ package com.at.nikhil.speciesai;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -18,6 +21,10 @@ import android.widget.Toast;
 
 import org.tensorflow.lite.support.model.Model;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -62,7 +69,16 @@ public class ImageViewer extends BaseActivity {
         type = data.getInt("type");
         try {
             Bitmap bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(),currImageURI);
-            ivImage.setImageBitmap(bm);
+            if(phototakenByCamera){
+                Matrix matrix = new Matrix();
+                matrix.postRotate(90);
+                Bitmap new_bm = Bitmap.createBitmap(bm,0,0,bm.getWidth(),bm.getHeight(),matrix,true);
+                ivImage.setImageBitmap(new_bm);
+                bm.recycle();
+                saveNewImage(new_bm);
+            }
+            else
+                ivImage.setImageBitmap(bm);
             UPLOADED = true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -86,7 +102,7 @@ public class ImageViewer extends BaseActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    List<Classifier.Recognition> results = classifier.recognizeImage(bm,phototakenByCamera);
+                    List<Classifier.Recognition> results = classifier.recognizeImage(bm);
                     first_result_tv.setText(results.get(0).getTitle());
                     first_result_score.setText(String.format(getString(R.string.floatLocale),results.get(0).getConfidence()*100.0f));
                     second_result_tv.setText(results.get(1).getTitle());
@@ -139,6 +155,7 @@ public class ImageViewer extends BaseActivity {
         intent.putExtra("Prediction",prediction);
         intent.putExtra("imageURI",imageUriString);
         intent.putExtra("type",type);
+        intent.putExtra("camera",phototakenByCamera);
         startActivity(intent);
     }
 
@@ -162,10 +179,36 @@ public class ImageViewer extends BaseActivity {
         imageUriString = currImageURI.toString();
         try {
             Bitmap bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(),imageUri);
-            ivImage.setImageBitmap(bm);
+            Matrix matrix = new Matrix();
+            matrix.postRotate(90);
+            Bitmap new_bm = Bitmap.createBitmap(bm,0,0,bm.getWidth(),bm.getHeight(),matrix,true);
+            ivImage.setImageBitmap(new_bm);
+            bm.recycle();
+            saveNewImage(new_bm);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void saveNewImage(Bitmap bm){
+        File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES) + File.separator + "image.jpg");
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG,90,bytes);
+        try {
+            FileOutputStream fo = new FileOutputStream(file);
+            fo.write(bytes.toByteArray());
+            fo.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        currImagePath = file.getAbsolutePath();
+        currImageURI = FileProvider.getUriForFile(this,"com.at.nikhil.speciesai",file);
+        imageUriString = currImageURI.toString();
     }
 
     @SuppressWarnings("deprecation")
