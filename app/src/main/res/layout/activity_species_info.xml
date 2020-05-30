@@ -7,20 +7,56 @@
     android:orientation="vertical"
     android:background="@drawable/background">
 
-
-    <ImageView
-        android:id="@+id/imageDisplay"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        app:srcCompat="@mipmap/ic_launcher" />
-
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/infoview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageDisplay"
+        android:layout_alignParentTop="true">
+
+
+        <ImageView
+            android:id="@+id/imageDisplay"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            app:srcCompat="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/infoTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/imageDisplay"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="10dp"
+            android:textSize="25dp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/courgette"
+            android:textStyle="bold"
+            android:text="Species Name Here" />
+
+        <Button
+            android:id="@+id/more_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/imageDisplay"
+            android:layout_below="@id/infoTitle"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="20dp"
+            android:text="Read More.." />
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/rcview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/infoview"
         android:orientation="vertical"
         android:layout_marginTop="20dp">
 
