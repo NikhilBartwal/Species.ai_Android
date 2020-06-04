@@ -115,6 +115,7 @@ public class ImageViewer extends BaseActivity {
                             return;
                         }
                     }
+                    predictionResult.setText("Prediction:");
                     first_result_tv.setText(results.get(0).getTitle().toLowerCase());
                     first_result_score.setText(String.format(getString(R.string.floatLocale),results.get(0).getConfidence()*100.0f));
                     second_result_tv.setText(results.get(1).getTitle().toLowerCase());
