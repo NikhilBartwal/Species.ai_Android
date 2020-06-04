@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">species.ai</string>
+    <string name="app_name">Species.ai</string>
     <string name="upload_photo">Upload Photo</string>
     <string name="dateFormat">yyMMdd_hhmmss</string>
     <string name="floatLocale">%.0f%%</string>
