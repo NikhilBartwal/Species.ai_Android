@@ -50,7 +50,7 @@ public class SpeciesInfo extends AppCompatActivity implements DataCellAdapter.It
         try{
             imageUri = Uri.parse(data.getString("imageURI"));
         } catch(NullPointerException e){
-            imageDisplay.setVisibility(View.INVISIBLE);
+            e.printStackTrace();
         }
         if(imageUri != null){
             Bitmap bm = null;
