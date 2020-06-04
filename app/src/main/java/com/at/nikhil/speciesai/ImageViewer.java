@@ -40,6 +40,7 @@ public class ImageViewer extends BaseActivity {
     private TextView first_result_tv,second_result_tv,third_result_tv;
     private TextView first_result_score,second_result_score,third_result_score;
     private CardView first,second,third;
+    private boolean funmode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,7 @@ public class ImageViewer extends BaseActivity {
         third = findViewById(R.id.third_result_cv);
 
         Bundle data = getIntent().getExtras();
+        funmode = data.getBoolean("funmode");
         imageUriString = data.getString("imageURI");
         currImageURI = Uri.parse(imageUriString);
         phototakenByCamera = data.getBoolean("fromCamera");
@@ -106,10 +108,12 @@ public class ImageViewer extends BaseActivity {
                         e.printStackTrace();
                     }
                     List<Classifier.Recognition> results = classifier.recognizeImage(bm);
-                    if(results.get(0).getConfidence()*100.0f < 60.0f){
-                        predictionResult.setText("Sorry we couldn't find the selected species in the image!");
-                        predictionResult.setVisibility(View.VISIBLE);
-                        return;
+                    if(!funmode){
+                        if(results.get(0).getConfidence()*100.0f < 60.0f){
+                            predictionResult.setText("Sorry we couldn't find the selected species in the image!");
+                            predictionResult.setVisibility(View.VISIBLE);
+                            return;
+                        }
                     }
                     first_result_tv.setText(results.get(0).getTitle().toLowerCase());
                     first_result_score.setText(String.format(getString(R.string.floatLocale),results.get(0).getConfidence()*100.0f));

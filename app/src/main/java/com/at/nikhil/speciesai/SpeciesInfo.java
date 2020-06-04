@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class SpeciesInfo extends AppCompatActivity implements DataCellAdapter.It
     private RecyclerView.LayoutManager layoutManager;
     ArrayList<DataCell> dataCells;
     private int type;
-    private String table;
+    private String[] table;
     private boolean photoTakenByCamera;
     private TextView infoTitle;
     private String url;
@@ -46,39 +47,52 @@ public class SpeciesInfo extends AppCompatActivity implements DataCellAdapter.It
 
         Bundle data = getIntent().getExtras();
         prediction = data.getString("Prediction");
-        imageUri = Uri.parse(data.getString("imageURI"));
+        try{
+            imageUri = Uri.parse(data.getString("imageURI"));
+        } catch(NullPointerException e){
+            imageDisplay.setVisibility(View.INVISIBLE);
+        }
+        if(imageUri != null){
+            Bitmap bm = null;
+            try {
+                bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(),imageUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            imageDisplay.setImageBitmap(bm);
+        }
         photoTakenByCamera = data.getBoolean("camera");
         type = data.getInt("type");
         if(type == 0)
-            table = "plantdata";
+            table = new String[]{"plantdata"};
         else if(type == 1)
-            table = "animaldata";
-        else{
-            table = "birddata";
+            table = new String[]{"animaldata"};
+        else if(type == 2){
+            table = new String[]{"birddata"};
         }
-        try {
-            Bitmap bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(),imageUri);
-            imageDisplay.setImageBitmap(bm);
-        } catch (IOException e) {
-            e.printStackTrace();
+        else{
+            table = new String[]{"plantdata", "animaldata", "birddata"};
         }
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
         databaseAccess.open();
         ArrayList<SpeciesData> speciesData = databaseAccess.getData(table,prediction);
-        for(int i=0;i<speciesData.size();i++){
-            if(speciesData.get(i).getValue() != null) {
-                if (i == 0)
-                    infoTitle.setText(speciesData.get(i).getValue());
-                else if (i == 3)
-                    url = speciesData.get(i).getValue();
-                else
-                    dataCells.add(new DataCell(speciesData.get(i).getKey(), speciesData.get(i).getValue()));
+        if(!speciesData.isEmpty()){
+            for(int i=0;i<speciesData.size();i++){
+                if(speciesData.get(i).getValue() != null) {
+                    if (i == 0)
+                        infoTitle.setText(speciesData.get(i).getValue());
+                    else if (i == 3)
+                        url = speciesData.get(i).getValue();
+                    else
+                        dataCells.add(new DataCell(speciesData.get(i).getKey(), speciesData.get(i).getValue()));
+                }
             }
+            mAdapter = new DataCellAdapter(this,dataCells);
+            recyclerView.setAdapter(mAdapter);
         }
-
-        mAdapter = new DataCellAdapter(this,dataCells);
-        recyclerView.setAdapter(mAdapter);
-
+        else{
+            Toast.makeText(SpeciesInfo.this,"Species could not be found!",Toast.LENGTH_SHORT).show();
+        }
         more_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -17,6 +17,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -37,17 +38,34 @@ import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends BaseActivity {
-    private Button plant_uploaad,animal_upload,bird_upload;
-
+    private Button plant_upload,animal_upload,bird_upload,search;
+    private SwitchCompat funmodeSwitch;
+    private TextView searchQuery;
+    private boolean funmode = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        plant_uploaad = findViewById(R.id.plant_upload);
+        plant_upload = findViewById(R.id.plant_upload);
         animal_upload = findViewById(R.id.animal_upload);
         bird_upload = findViewById(R.id.bird_upload);
-
-        plant_uploaad.setOnClickListener(new View.OnClickListener() {
+        search = findViewById(R.id.search_button);
+        searchQuery = findViewById(R.id.searchQuery);
+        funmodeSwitch = findViewById(R.id.funswitch);
+        funmodeSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(funmodeSwitch.isChecked()){
+                    Toast.makeText(MainActivity.this,"Fun-Mode Activated!",Toast.LENGTH_LONG).show();
+                    funmode = true;
+                }
+                else{
+                    Toast.makeText(MainActivity.this,"Fun-Mode Deactivated!",Toast.LENGTH_LONG).show();
+                    funmode = false;
+                }
+            }
+        });
+        plant_upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 type = 0;
@@ -70,7 +88,21 @@ public class MainActivity extends BaseActivity {
                 selectImage(MainActivity.this);
             }
         });
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendSearchQuery(searchQuery.getText().toString());
+            }
+        });
 
+    }
+
+    private void sendSearchQuery(String query){
+        Intent intent = new Intent(MainActivity.this,SpeciesInfo.class);
+        intent.putExtra("Prediction",query);
+        intent.putExtra("type",3);
+        intent.putExtra("camera",false);
+        startActivity(intent);
     }
 
     @Override
@@ -127,6 +159,7 @@ public class MainActivity extends BaseActivity {
         intent.putExtra("imageURI",imageUri.toString());
         intent.putExtra("fromCamera",fromCamera);
         intent.putExtra("type",type);
+        intent.putExtra("funmode",funmode);
         startActivity(intent);
     }
 

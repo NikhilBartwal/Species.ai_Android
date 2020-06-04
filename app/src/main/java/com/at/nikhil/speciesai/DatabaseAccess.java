@@ -31,16 +31,21 @@ public class DatabaseAccess {
             this.database.close();
     }
 
-    public ArrayList<SpeciesData> getData(String table,String prediction){
+    public ArrayList<SpeciesData> getData(String[] table,String prediction){
         ArrayList<SpeciesData> list = new ArrayList<>();
-        String sql = "SELECT * FROM " + table + " WHERE LOWER(name) = ?";
-        Cursor cursor = database.rawQuery(sql,new String[]{prediction});
-        cursor.moveToFirst();
-        int numColumns = cursor.getColumnCount();
-        for(int i=0;i<numColumns;i++){
-            list.add(new SpeciesData(cursor.getColumnName(i),cursor.getString(i)));
+        for (String tablename : table) {
+            String sql = "SELECT * FROM " + tablename + " WHERE LOWER(name) = ?";
+            Cursor cursor = database.rawQuery(sql, new String[]{prediction});
+            if(cursor.getCount() > 0 ){
+                cursor.moveToFirst();
+                int numColumns = cursor.getColumnCount();
+                for(int i=0;i<numColumns;i++){
+                    list.add(new SpeciesData(cursor.getColumnName(i),cursor.getString(i)));
+                }
+                cursor.close();
+                break;
+            }
         }
-        cursor.close();
         return list;
     }
 

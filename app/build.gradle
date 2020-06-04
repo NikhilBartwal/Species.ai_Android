@@ -28,8 +28,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation('org.tensorflow:tensorflow-lite:0.0.0-nightly') { changing = true }
-    implementation('org.tensorflow:tensorflow-lite-gpu:0.0.0-nightly') { changing = true }
+    implementation('org.tensorflow:tensorflow-lite:2.2.0') { changing = true }
+    implementation('org.tensorflow:tensorflow-lite-gpu:2.2.0') { changing = true }
     implementation('org.tensorflow:tensorflow-lite-support:0.0.0-nightly') { changing = true }
     implementation 'com.android.support:recyclerview-v7:28.+'
     implementation 'com.android.support:appcompat-v7:28.+'
