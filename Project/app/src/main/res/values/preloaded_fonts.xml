@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/carter_one</item>
+        <item>@font/chewy</item>
+        <item>@font/courgette</item>
+        <item>@font/margarine</item>
+        <item>@font/paprika</item>
+        <item>@font/permanent_marker</item>
+        <item>@font/spicy_rice</item>
+    </array>
+</resources>

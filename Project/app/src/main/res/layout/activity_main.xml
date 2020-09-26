@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/background">
+
+        <RelativeLayout android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/fun"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="20sp"
+                android:text="FUN MODE"
+                android:textColor="@color/white"
+                android:textStyle="italic|bold"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:fontFamily="@font/permanent_marker"
+                android:layout_marginStart="70dp"/>
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/funswitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="90dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_centerVertical="true"
+                android:outlineSpotShadowColor="@color/white"
+                android:checked="false"
+                android:textOn="ON"
+                android:textOff="OFF"
+                android:textColor="@color/white"
+                android:fontFamily="@font/permanent_marker"
+                android:theme="@style/Switch"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:weightSum="4">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_toStartOf="@id/flower_card">
+
+                    <TextView
+                        android:id="@+id/plant_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="40dp"
+                        android:fontFamily="@font/courgette"
+                        android:text="100+ Flowers"
+                        android:textColor="@color/white"
+                        android:textSize="28dp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/plant_upload"
+                        android:layout_width="150dp"
+                        android:layout_height="60dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="35dp"
+                        android:layout_centerHorizontal="true"
+                        android:text="Explore"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textAllCaps="false"/>
+                </RelativeLayout>
+
+                <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/flower_card"
+                    android:layout_gravity="end"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="192dp"
+                    android:layout_height="192dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    card_view:cardElevation="5dp"
+                    card_view:cardCornerRadius="40dp"
+                    card_view:cardPreventCornerOverlap="true"
+                    card_view:cardBackgroundColor="@color/colorPrimary">
+
+                    <RelativeLayout
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:background="@mipmap/plant_round">
+
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+
+                <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/animal_card"
+                    android:layout_alignParentStart="true"
+                    android:layout_width="192dp"
+                    android:layout_height="192dp"
+                    android:layout_marginStart="5dp"
+                    card_view:cardElevation="5dp"
+                    card_view:cardCornerRadius="40dp">
+
+                    <RelativeLayout
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:background="@mipmap/animal">
+
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_toEndOf="@id/animal_card">
+
+                    <TextView
+                        android:id="@+id/animal_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="50dp"
+                        android:fontFamily="@font/courgette"
+                        android:text="30+ Animals"
+                        android:textColor="@color/white"
+                        android:textSize="28dp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/animal_upload"
+                        android:layout_width="150dp"
+                        android:layout_height="60dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="35dp"
+                        android:layout_centerHorizontal="true"
+                        android:text="Proceed"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textAllCaps="false"/>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_toStartOf="@id/bird_card">
+
+                    <TextView
+                        android:id="@+id/bird_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/courgette"
+                        android:layout_centerHorizontal="true"
+                        android:text="200+ Birds"
+                        android:textColor="@color/white"
+                        android:textSize="28dp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="50dp"/>
+
+                    <Button
+                        android:id="@+id/bird_upload"
+                        android:layout_width="150dp"
+                        android:layout_height="60dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="35dp"
+                        android:layout_centerHorizontal="true"
+                        android:text="Upload"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textAllCaps="false"/>
+
+                </RelativeLayout>
+
+                <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/bird_card"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="192dp"
+                    android:layout_height="192dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
+                    card_view:cardElevation="5dp"
+                    card_view:cardCornerRadius="40dp">
+
+                    <RelativeLayout
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:background="@mipmap/birds">
+
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/search_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/courgette"
+                    android:text="Search Manually"
+                    android:textColor="@color/white"
+                    android:textSize="30sp"
+                    android:textStyle="bold"/>
+
+                <EditText
+                    android:id="@+id/searchQuery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/search_title"
+                    android:layout_marginTop="20dp"
+                    android:layout_toLeftOf="@+id/search_button"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="50dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:background="@layout/image_border"
+                    android:ems="10"
+                    android:fontFamily="@font/paprika"
+                    android:inputType="textPersonName"
+                    android:text="Enter species here"
+                    android:textAlignment="center"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/search_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/search_title"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="20dp"
+                    android:text="Search"/>
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>
