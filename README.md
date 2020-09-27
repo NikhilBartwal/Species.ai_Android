@@ -13,6 +13,30 @@ It allows the user to simply take a photo of any plant, animal, bird right at th
 Species.AI can classify around 350+ categories of various plants, flowers, animals and bird using deep learning models.
 Also, the app gives prediction only in the case an actual species is present in the photograph. If, for example, an object or a human is detected, the app gives a "No species Found" message to the user.
 
+<table>
+  <tr>
+    <td><b> App Logo </b></td>
+     <td><b> Main Menu </b></td>
+     <td><b> Testing a Bird Image </b></td>
+  </tr>
+  <tr>
+    <td><img src="Screenshots/Logo.jpeg" width=270 height=540></td>
+    <td><img src="Screenshots/Menu.jpeg" width=300 height=620></td>
+    <td><img src="Screenshots/Bird Test.jpeg" width=270 height=540></td>
+  </tr>
+  <tr><td></td></tr>
+  <tr>
+    <td><b> Bird Info </b></td>
+     <td><b> Testing a Flower </b></td>
+     <td><b> Flower Info </b></td>
+  </tr>
+  <tr>
+    <td><img src="Screenshots/Bird Info.jpeg" width=270 height=540></td>
+    <td><img src="Screenshots/Flower Test.jpeg" width=300 height=620></td>
+    <td><img src="Screenshots/Flower Info.jpeg" width=270 height=540></td>
+  </tr>
+ </table>
+
 ## Installation
 
 * Use the apk file provided in the source code [here]() and install it on your android application
