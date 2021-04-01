@@ -13,20 +13,18 @@ import android.os.Bundle;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 public class BaseActivity extends AppCompatActivity {
 
     protected String userChosenTask;
     protected Uri currImageURI;
+
     protected static final int SELECT_FILE = 200;
     protected static final int REQUEST_CAMERA = 100;
+
     protected String currImagePath;
     protected int type = -1;
-    protected boolean phototakenByCamera;
+    protected boolean photoTakenByCamera;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,26 +33,29 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void selectImage(final Context context){
-        final CharSequence[] items = {"Take Photo" , "Open Gallery", "Cancel"};
+        final CharSequence[] options = {"Take Photo" , "Open Gallery", "Cancel"};
+
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Upload Photo!");
-        builder.setItems(items, new DialogInterface.OnClickListener() {
+
+        builder.setItems(options, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
                 boolean result = Utility.chcekPermission(context);
-                if(items[item].equals("Take Photo")){
+
+                if(options[item].equals("Take Photo")){
                     userChosenTask = "Take Photo";
                     if(result){
                         cameraIntent();
                     }
                 }
-                else if(items[item].equals("Open Gallery")){
+                else if(options[item].equals("Open Gallery")){
                     userChosenTask = "Open Gallery";
                     if(result){
                         galleryIntent();
                     }
                 }
-                else if(items[item].equals("Cancel")){
+                else if(options[item].equals("Cancel")){
                     dialog.dismiss();
                 }
 
@@ -65,17 +66,21 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void cameraIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
         if(intent.resolveActivity(getPackageManager()) != null){
             File imageFile = null;
+
             try {
                 imageFile = createImageFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
             if(imageFile != null){
                 Uri imageURI = FileProvider.getUriForFile(this,
                         "com.at.nikhil.speciesai",
                         imageFile);
+
                 currImageURI = imageURI;
                 intent.putExtra(MediaStore.EXTRA_OUTPUT,imageURI);
                 startActivityForResult(intent,REQUEST_CAMERA);
@@ -88,8 +93,11 @@ public class BaseActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
+
         if(intent.resolveActivity(getPackageManager()) != null){
-            startActivityForResult(Intent.createChooser(intent,"SELECT File"),SELECT_FILE);
+            startActivityForResult(
+                    Intent.createChooser(intent,"SELECT File"),
+                    SELECT_FILE);
         }
     }
 

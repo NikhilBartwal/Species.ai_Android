@@ -10,7 +10,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
@@ -23,7 +22,6 @@ import org.tensorflow.lite.support.model.Model;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -67,11 +65,11 @@ public class ImageViewer extends BaseActivity {
         funmode = data.getBoolean("funmode");
         imageUriString = data.getString("imageURI");
         currImageURI = Uri.parse(imageUriString);
-        phototakenByCamera = data.getBoolean("fromCamera");
+        photoTakenByCamera = data.getBoolean("fromCamera");
         type = data.getInt("type");
         try {
             Bitmap bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(),currImageURI);
-            if(phototakenByCamera){
+            if(photoTakenByCamera){
                 Matrix matrix = new Matrix();
                 matrix.postRotate(90);
                 Bitmap new_bm = Bitmap.createBitmap(bm,0,0,bm.getWidth(),bm.getHeight(),matrix,true);
@@ -168,7 +166,7 @@ public class ImageViewer extends BaseActivity {
         intent.putExtra("Prediction",prediction);
         intent.putExtra("imageURI",imageUriString);
         intent.putExtra("type",type);
-        intent.putExtra("camera",phototakenByCamera);
+        intent.putExtra("camera", photoTakenByCamera);
         startActivity(intent);
     }
 
@@ -177,11 +175,11 @@ public class ImageViewer extends BaseActivity {
         //super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == Activity.RESULT_OK){
             if(requestCode == REQUEST_CAMERA){
-                phototakenByCamera = true;
+                photoTakenByCamera = true;
                 onCaptureImageResult(data);
             }
             else if(requestCode == SELECT_FILE){
-                phototakenByCamera = false;
+                photoTakenByCamera = false;
                 onSelectFromGalleryResult(data);
             }
         }
