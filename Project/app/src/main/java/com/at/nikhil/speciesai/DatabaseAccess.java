@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 
 public class DatabaseAccess {
+
     private SQLiteOpenHelper openHelper;
     private SQLiteDatabase database;
     private static DatabaseAccess instance;
@@ -32,16 +33,21 @@ public class DatabaseAccess {
     }
 
     public ArrayList<SpeciesData> getData(String[] table,String prediction){
+
         ArrayList<SpeciesData> list = new ArrayList<>();
         for (String tablename : table) {
+
             String sql = "SELECT * FROM " + tablename + " WHERE LOWER(name) = ?";
             Cursor cursor = database.rawQuery(sql, new String[]{prediction});
+
             if(cursor.getCount() > 0 ){
                 cursor.moveToFirst();
                 int numColumns = cursor.getColumnCount();
+
                 for(int i=0;i<numColumns;i++){
                     list.add(new SpeciesData(cursor.getColumnName(i),cursor.getString(i)));
                 }
+
                 cursor.close();
                 break;
             }
