@@ -28,6 +28,7 @@ public class DataCellAdapter extends RecyclerView.Adapter<DataCellAdapter.MyView
     public class MyViewHolder extends RecyclerView.ViewHolder{
         TextView heading;
         TextView description;
+
         public MyViewHolder(@NonNull View itemView){
             super(itemView);
             heading = itemView.findViewById(R.id.heading);
@@ -45,12 +46,15 @@ public class DataCellAdapter extends RecyclerView.Adapter<DataCellAdapter.MyView
     @NonNull
     @Override
     public DataCellAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_items,viewGroup,false);
+        View v = LayoutInflater.from(viewGroup.getContext())
+                               .inflate(R.layout.list_items,viewGroup,false);
+
         return new MyViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull DataCellAdapter.MyViewHolder myViewHolder, int i) {
+
         myViewHolder.itemView.setTag(dataCells.get(i));
         myViewHolder.heading.setText(dataCells.get(i).getHeading());
         myViewHolder.description.setText(dataCells.get(i).getDescription());
