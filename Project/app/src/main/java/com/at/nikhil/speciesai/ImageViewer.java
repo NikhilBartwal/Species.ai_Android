@@ -37,41 +37,50 @@ public class ImageViewer extends BaseActivity {
     private String imageUriString;
     private TextView first_result_tv,second_result_tv,third_result_tv;
     private TextView first_result_score,second_result_score,third_result_score;
-    private CardView first,second,third;
-    private boolean funmode;
+    private CardView first_card, second_card, third_card;
+    private boolean funMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_viewer);
+
         ivImage = findViewById(R.id.ivImage);
         image_dims = findViewById(R.id.image_dims);
         predictionResult = findViewById(R.id.predictionResult);
+
         reupload_button = findViewById(R.id.reupload_button);
         predict_button = findViewById(R.id.predict_button);
 
         first_result_tv = findViewById(R.id.first_result_tv);
         second_result_tv = findViewById(R.id.second_result_tv);
         third_result_tv = findViewById(R.id.third_result_tv);
+
         first_result_score = findViewById(R.id.first_result_score);
         second_result_score = findViewById(R.id.second_result_score);
         third_result_score = findViewById(R.id.third_result_score);
 
-        first = findViewById(R.id.first_result_cv);
-        second = findViewById(R.id.second_result_cv);
-        third = findViewById(R.id.third_result_cv);
+        first_card = findViewById(R.id.first_result_card);
+        second_card = findViewById(R.id.second_result_card);
+        third_card = findViewById(R.id.third_result_card);
 
         Bundle data = getIntent().getExtras();
-        funmode = data.getBoolean("funmode");
+        assert data != null; // Received Data shouldn't be null
+
+        funMode = data.getBoolean("funMode");
         imageUriString = data.getString("imageURI");
         currImageURI = Uri.parse(imageUriString);
         photoTakenByCamera = data.getBoolean("fromCamera");
         type = data.getInt("type");
+
         try {
             Bitmap bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(),currImageURI);
+
             if(photoTakenByCamera){
+
                 Matrix matrix = new Matrix();
                 matrix.postRotate(90);
+
                 Bitmap new_bm = Bitmap.createBitmap(bm,0,0,bm.getWidth(),bm.getHeight(),matrix,true);
                 ivImage.setImageBitmap(new_bm);
                 bm.recycle();
@@ -79,10 +88,12 @@ public class ImageViewer extends BaseActivity {
             }
             else
                 ivImage.setImageBitmap(bm);
+
             String dims = "Image Dimensions: " + bm.getWidth() + " * " + bm.getHeight();
             image_dims.setText(dims);
             image_dims.setVisibility(View.VISIBLE);
             UPLOADED = true;
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -98,6 +109,7 @@ public class ImageViewer extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Bitmap bm = ((BitmapDrawable) ivImage.getDrawable()).getBitmap();
+
                 if(UPLOADED && type != -1){
                     final Model.Device device = Model.Device.GPU;
                     try {
@@ -105,54 +117,69 @@ public class ImageViewer extends BaseActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
                     List<Classifier.Recognition> results = classifier.recognizeImage(bm);
-                    if(!funmode){
+
+                    if(!funMode){
                         if(results.get(0).getConfidence()*100.0f < 60.0f){
-                            predictionResult.setText("Sorry we couldn't find the selected species in the image!");
+                            // Minimum confidence should be >60% when not in fun mode
+                            predictionResult.setText(getString(R.string.speciesNotFound));
                             predictionResult.setVisibility(View.VISIBLE);
                             return;
                         }
                     }
-                    predictionResult.setText("Prediction:");
+                    predictionResult.setText(getString(R.string.prediction));
+
                     first_result_tv.setText(results.get(0).getTitle().toLowerCase());
                     first_result_score.setText(String.format(getString(R.string.floatLocale),results.get(0).getConfidence()*100.0f));
+
                     second_result_tv.setText(results.get(1).getTitle().toLowerCase());
                     second_result_score.setText(String.format(getString(R.string.floatLocale),results.get(1).getConfidence()*100.0f));
+
                     third_result_tv.setText(results.get(2).getTitle().toLowerCase());
                     third_result_score.setText(String.format(getString(R.string.floatLocale),results.get(2).getConfidence()*100.0f));
+
                     predictionResult.setVisibility(View.VISIBLE);
-                    first.setVisibility(View.VISIBLE);
-                    second.setVisibility(View.VISIBLE);
-                    third.setVisibility(View.VISIBLE);
+
+                    first_card.setVisibility(View.VISIBLE);
+                    second_card.setVisibility(View.VISIBLE);
+                    third_card.setVisibility(View.VISIBLE);
+
                     classifier.close();
                 }
                 else if(!UPLOADED){
-                    Toast.makeText(getApplicationContext(),"Please Upload An Image First",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),
+                            "Please Upload An Image First",
+                            Toast.LENGTH_SHORT).show();
                 }
                 else if(type == -1){
-                    Toast.makeText(getApplicationContext(),"Please Select a type first",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),
+                            "Please Select a type first",
+                            Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Toast.makeText(getApplicationContext(),"Oops! Some Error Occurred.Kindly Restart the app!",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),
+                            "Oops! Some Error Occurred.Kindly Restart the app!",
+                            Toast.LENGTH_LONG).show();
                 }
             }
         });
 
-        first.setOnClickListener(new View.OnClickListener() {
+        first_card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendPrediction(first_result_tv.getText().toString());
             }
         });
 
-        second.setOnClickListener(new View.OnClickListener() {
+        second_card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendPrediction(second_result_tv.getText().toString());
             }
         });
 
-        third.setOnClickListener(new View.OnClickListener() {
+        third_card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendPrediction(third_result_tv.getText().toString());
@@ -163,10 +190,12 @@ public class ImageViewer extends BaseActivity {
 
     private void sendPrediction(String prediction){
         Intent intent = new Intent(ImageViewer.this,SpeciesInfo.class);
+
         intent.putExtra("Prediction",prediction);
         intent.putExtra("imageURI",imageUriString);
         intent.putExtra("type",type);
         intent.putExtra("camera", photoTakenByCamera);
+
         startActivity(intent);
     }
 
@@ -190,15 +219,19 @@ public class ImageViewer extends BaseActivity {
         imageUriString = currImageURI.toString();
         try {
             Bitmap bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(),imageUri);
+            String dims = "Image Dimensions: " + bm.getWidth() + " * " + bm.getHeight();
+
             Matrix matrix = new Matrix();
             matrix.postRotate(90);
+
             Bitmap new_bm = Bitmap.createBitmap(bm,0,0,bm.getWidth(),bm.getHeight(),matrix,true);
+
             ivImage.setImageBitmap(new_bm);
-            String dims = "Image Dimensions: " + bm.getWidth() + " * " + bm.getHeight();
             image_dims.setText(dims);
             image_dims.setVisibility(View.VISIBLE);
             bm.recycle();
             saveNewImage(new_bm);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -211,8 +244,10 @@ public class ImageViewer extends BaseActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.JPEG,90,bytes);
+
         try {
             FileOutputStream fo = new FileOutputStream(file);
             fo.write(bytes.toByteArray());
@@ -220,6 +255,7 @@ public class ImageViewer extends BaseActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         currImagePath = file.getAbsolutePath();
         currImageURI = FileProvider.getUriForFile(this,"com.at.nikhil.speciesai",file);
         imageUriString = currImageURI.toString();
@@ -231,10 +267,12 @@ public class ImageViewer extends BaseActivity {
         imageUriString = imageUri.toString();
         try {
             Bitmap bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(),imageUri);
-            ivImage.setImageBitmap(bm);
             String dims = "Image Dimensions: " + bm.getWidth() + " * " + bm.getHeight();
+
+            ivImage.setImageBitmap(bm);
             image_dims.setText(dims);
             image_dims.setVisibility(View.VISIBLE);
+
         } catch (IOException e) {
             e.printStackTrace();
         }

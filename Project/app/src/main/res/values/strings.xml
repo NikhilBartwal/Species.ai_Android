@@ -4,4 +4,6 @@
     <string name="dateFormat">yyMMdd_hhmmss</string>
     <string name="floatLocale">%.0f%%</string>
     <string name="percent">%</string>
+    <string name="speciesNotFound">Sorry we couldn\'t find the selected species in the image!</string>
+    <string name="prediction">Prediction:</string>
 </resources>
