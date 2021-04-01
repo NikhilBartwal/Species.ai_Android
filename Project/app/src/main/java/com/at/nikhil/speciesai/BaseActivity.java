@@ -102,16 +102,10 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected File createImageFile() throws IOException {
-        File image = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES) + File.separator + "image.jpg");
+        File image = new File(getExternalFilesDir(
+                Environment.DIRECTORY_PICTURES) + File.separator + "image.jpg");
+
         image.createNewFile();
-        /*String imageFileName = "image";
-        File storagedir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-         //       ".jpg",         /* suffix */
-          //      storagedir      /* directory */
-        //);
-        //File image = File.createTempFile(imageFileName,".jpg",storagedir);
         currImagePath = image.getAbsolutePath();
         return image;
 
