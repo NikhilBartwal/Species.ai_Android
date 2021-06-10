@@ -14,30 +14,35 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends BaseActivity {
-    private Button plant_upload,animal_upload,bird_upload,search;
-    private SwitchCompat funmodeSwitch;
+    private SwitchCompat funModeSwitch;
     private TextView searchQuery;
-    private boolean funmode = false;
+    private boolean funMode = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        plant_upload = findViewById(R.id.plant_upload);
-        animal_upload = findViewById(R.id.animal_upload);
-        bird_upload = findViewById(R.id.bird_upload);
-        search = findViewById(R.id.search_button);
+
+        Button plant_upload = findViewById(R.id.plant_upload);
+        Button animal_upload = findViewById(R.id.animal_upload);
+        Button bird_upload = findViewById(R.id.bird_upload);
+        Button search = findViewById(R.id.search_button);
+
         searchQuery = findViewById(R.id.searchQuery);
-        funmodeSwitch = findViewById(R.id.funswitch);
-        funmodeSwitch.setOnClickListener(new View.OnClickListener() {
+        funModeSwitch = findViewById(R.id.funswitch);
+
+        funModeSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(funmodeSwitch.isChecked()){
-                    Toast.makeText(MainActivity.this,"Fun-Mode Activated!",Toast.LENGTH_LONG).show();
-                    funmode = true;
+                if(funModeSwitch.isChecked()){
+                    Toast.makeText(MainActivity.this,
+                            "Fun-Mode Activated!",Toast.LENGTH_LONG).show();
+                    funMode = true;
                 }
                 else{
-                    Toast.makeText(MainActivity.this,"Fun-Mode Deactivated!",Toast.LENGTH_LONG).show();
-                    funmode = false;
+                    Toast.makeText(MainActivity.this,
+                            "Fun-Mode Deactivated!",Toast.LENGTH_LONG).show();
+                    funMode = false;
                 }
             }
         });
@@ -82,9 +87,11 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         switch(requestCode){
-            case Utility.MY_PERMISSIONS_REQUEST_READ_EXTERNEL_STORAGE :
+            case Utility.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                     switch (userChosenTask) {
                         case "Take Photo":
@@ -108,7 +115,7 @@ public class MainActivity extends BaseActivity {
         if(resultCode == Activity.RESULT_OK){
             if(requestCode == REQUEST_CAMERA){
                 photoTakenByCamera = true;
-                onCaptureImageResult(data);
+                onCaptureImageResult();
             }
             else if(requestCode == SELECT_FILE){
                 photoTakenByCamera = false;
@@ -117,7 +124,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private void onCaptureImageResult(Intent data) {
+    private void onCaptureImageResult() {
         Uri imageUri = currImageURI;
         sendImage(imageUri,true);
 
@@ -135,7 +142,7 @@ public class MainActivity extends BaseActivity {
         intent.putExtra("imageURI",imageUri.toString());
         intent.putExtra("fromCamera",fromCamera);
         intent.putExtra("type",type);
-        intent.putExtra("funmode",funmode);
+        intent.putExtra("funMode", funMode);
         startActivity(intent);
     }
 

@@ -15,21 +15,20 @@ public class DataCellAdapter extends RecyclerView.Adapter<DataCellAdapter.MyView
     ItemClicked activity;
 
     public interface ItemClicked{
-
         void onItemClicked(int index);
     }
 
-    public DataCellAdapter(Context context, ArrayList<DataCell> datalist){
+    DataCellAdapter(Context context, ArrayList<DataCell> datalist){
 
         dataCells = datalist;
         activity = (ItemClicked) context;
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    class MyViewHolder extends RecyclerView.ViewHolder{
         TextView heading;
         TextView description;
 
-        public MyViewHolder(@NonNull View itemView){
+        MyViewHolder(@NonNull View itemView){
             super(itemView);
             heading = itemView.findViewById(R.id.heading);
             description = itemView.findViewById(R.id.description);

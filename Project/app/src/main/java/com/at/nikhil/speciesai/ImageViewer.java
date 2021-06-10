@@ -30,8 +30,6 @@ public class ImageViewer extends BaseActivity {
 
     private ImageView ivImage;
     private TextView image_dims,predictionResult;
-    private Button reupload_button;
-    private Button predict_button;
     private Classifier classifier;
     private boolean UPLOADED = false;
     private String imageUriString;
@@ -49,8 +47,8 @@ public class ImageViewer extends BaseActivity {
         image_dims = findViewById(R.id.image_dims);
         predictionResult = findViewById(R.id.predictionResult);
 
-        reupload_button = findViewById(R.id.reupload_button);
-        predict_button = findViewById(R.id.predict_button);
+        Button reupload_button = findViewById(R.id.reupload_button);
+        Button predict_button = findViewById(R.id.predict_button);
 
         first_result_tv = findViewById(R.id.first_result_tv);
         second_result_tv = findViewById(R.id.second_result_tv);
@@ -74,7 +72,9 @@ public class ImageViewer extends BaseActivity {
         type = data.getInt("type");
 
         try {
-            Bitmap bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(),currImageURI);
+            Bitmap bm = MediaStore.Images.Media.getBitmap(
+                    getApplicationContext().getContentResolver(),
+                    currImageURI);
 
             if(photoTakenByCamera){
 
@@ -111,7 +111,7 @@ public class ImageViewer extends BaseActivity {
                 Bitmap bm = ((BitmapDrawable) ivImage.getDrawable()).getBitmap();
 
                 if(UPLOADED && type != -1){
-                    final Model.Device device = Model.Device.GPU;
+                    final Model.Device device = Model.Device.CPU;
                     try {
                         classifier = Classifier.create(ImageViewer.this,device,type);
                     } catch (IOException e) {
@@ -205,7 +205,7 @@ public class ImageViewer extends BaseActivity {
         if(resultCode == Activity.RESULT_OK){
             if(requestCode == REQUEST_CAMERA){
                 photoTakenByCamera = true;
-                onCaptureImageResult(data);
+                onCaptureImageResult();
             }
             else if(requestCode == SELECT_FILE){
                 photoTakenByCamera = false;
@@ -214,7 +214,7 @@ public class ImageViewer extends BaseActivity {
         }
     }
 
-    private void onCaptureImageResult(Intent data) {
+    private void onCaptureImageResult() {
         Uri imageUri = currImageURI;
         imageUriString = currImageURI.toString();
         try {

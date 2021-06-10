@@ -41,7 +41,7 @@ public class BaseActivity extends AppCompatActivity {
         builder.setItems(options, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
-                boolean result = Utility.chcekPermission(context);
+                boolean result = Utility.checkPermission(context);
 
                 if(options[item].equals("Take Photo")){
                     userChosenTask = "Take Photo";
@@ -76,7 +76,7 @@ public class BaseActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            if(imageFile != null){
+            if( imageFile != null){
                 Uri imageURI = FileProvider.getUriForFile(this,
                         "com.at.nikhil.speciesai",
                         imageFile);
@@ -103,11 +103,17 @@ public class BaseActivity extends AppCompatActivity {
 
     protected File createImageFile() throws IOException {
         File image = new File(getExternalFilesDir(
-                Environment.DIRECTORY_PICTURES) + File.separator + "image.jpg");
+                 Environment.DIRECTORY_PICTURES) + File.separator + "image.jpg");
 
-        image.createNewFile();
-        currImagePath = image.getAbsolutePath();
-        return image;
-
+        if(image.exists()){
+            image.delete();
+        }
+        boolean newFile = image.createNewFile();
+        if(newFile){
+            currImagePath = image.getAbsolutePath();
+            return image;
+        }
+        else
+            throw new IOException("Image file could not be created");
     }
 }

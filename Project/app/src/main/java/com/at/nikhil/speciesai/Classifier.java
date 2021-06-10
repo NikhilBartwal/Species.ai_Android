@@ -1,8 +1,11 @@
 package com.at.nikhil.speciesai;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
+import android.support.annotation.NonNull;
+
 import org.tensorflow.lite.DataType;
 import org.tensorflow.lite.Interpreter;
 import org.tensorflow.lite.gpu.GpuDelegate;
@@ -31,8 +34,7 @@ public class Classifier {
     private final int imageSizeY;
 
     private GpuDelegate gpuDelegate = null;
-    protected Interpreter tflite;
-    private final Interpreter.Options tfliteOptions = new Interpreter.Options();
+    private Interpreter tfliteInterpreter;
 
     private List<String> labels;
     private TensorImage inputImageBuffer;
@@ -45,7 +47,7 @@ public class Classifier {
         private final String title;
         private final Float confidence;
 
-        public Recognition(final String id, final String title, final Float confidence) {
+        Recognition(final String id, final String title, final Float confidence) {
             this.id = id;
             this.title = title;
             this.confidence = confidence;
@@ -59,10 +61,12 @@ public class Classifier {
             return title;
         }
 
-        public Float getConfidence() {
+        Float getConfidence() {
             return confidence;
         }
 
+        @NonNull
+        @SuppressLint("DefaultLocale")
         @Override
         public String toString() {
             String resultString = "";
@@ -83,20 +87,20 @@ public class Classifier {
 
     }
 
-    public static Classifier create(Activity activity,
-                                    Model.Device device,int type) throws IOException{
+    static Classifier create(Activity activity,
+                             Model.Device device, int type) throws IOException{
 
         //Type: 0 for plants,1 for animals, 2 for birds
         return new Classifier(activity, device, type);
     }
 
-    protected Classifier(Activity activity,
-                         Model.Device device,int type) throws IOException{
+    private Classifier(Activity activity,
+                       Model.Device device, int type) throws IOException{
 
         tfliteModel = FileUtil.loadMappedFile(activity, getModelName(type));
 
+        Interpreter.Options tfliteOptions = new Interpreter.Options();
         switch (device){
-
             case GPU:
                 gpuDelegate = new GpuDelegate();
                 tfliteOptions.addDelegate(gpuDelegate);
@@ -105,21 +109,21 @@ public class Classifier {
             case CPU:
                 break;
         }
-        tflite = new Interpreter(tfliteModel,tfliteOptions);
+        tfliteInterpreter = new Interpreter(tfliteModel, tfliteOptions);
 
         labels = FileUtil.loadLabels(activity,getLabels(type));
 
         int imageTensorIndex = 0;
-        int[] inputShape = tflite.getInputTensor(imageTensorIndex).shape();
+        int[] inputShape = tfliteInterpreter.getInputTensor(imageTensorIndex).shape();
         //{1,height,width,3}
 
         imageSizeY = inputShape[1];
         imageSizeX = inputShape[2];
-        DataType imageDataType = tflite.getInputTensor(imageTensorIndex).dataType();
+        DataType imageDataType = tfliteInterpreter.getInputTensor(imageTensorIndex).dataType();
 
         int probabilityTensorIndex = 0;
-        int[] probabilityShape = tflite.getOutputTensor(probabilityTensorIndex).shape();
-        DataType probabilityDataType = tflite.getOutputTensor(probabilityTensorIndex).dataType();
+        int[] probabilityShape = tfliteInterpreter.getOutputTensor(probabilityTensorIndex).shape();
+        DataType probabilityDataType = tfliteInterpreter.getOutputTensor(probabilityTensorIndex).dataType();
 
         inputImageBuffer = new TensorImage(imageDataType);
         outputProbabilityBuffer = TensorBuffer.createFixedSize(
@@ -153,9 +157,9 @@ public class Classifier {
     }
 
     public void close(){
-        if(tflite != null){
-            tflite.close();
-            tflite = null;
+        if(tfliteInterpreter != null){
+            tfliteInterpreter.close();
+            tfliteInterpreter = null;
         }
         if(gpuDelegate != null){
             gpuDelegate.close();
@@ -164,10 +168,10 @@ public class Classifier {
         tfliteModel = null;
     }
 
-    public List<Recognition> recognizeImage(Bitmap bitmap){
+    List<Recognition> recognizeImage(Bitmap bitmap){
 
         inputImageBuffer = loadImage(bitmap);
-        tflite.run(inputImageBuffer.getBuffer(),
+        tfliteInterpreter.run(inputImageBuffer.getBuffer(),
                 outputProbabilityBuffer.getBuffer().rewind());
 
         Map<String,Float> labeledProbability =

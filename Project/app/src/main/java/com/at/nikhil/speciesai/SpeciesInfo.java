@@ -19,34 +19,27 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class SpeciesInfo extends AppCompatActivity implements DataCellAdapter.ItemClicked {
-    private String prediction;
     private Uri imageUri;
-    private ImageView imageDisplay;
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
     ArrayList<DataCell> dataCells;
-    private int type;
-    private String[] table;
-    private boolean photoTakenByCamera;
-    private TextView infoTitle;
     private String url;
-    private Button more_button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_species_info);
-        recyclerView = findViewById(R.id.list);
+
+        RecyclerView recyclerView = findViewById(R.id.list);
         recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        dataCells = new ArrayList<DataCell>();
-        imageDisplay = findViewById(R.id.imageDisplay);
-        infoTitle = findViewById(R.id.infoTitle);
-        more_button = findViewById(R.id.more_button);
+
+        dataCells = new ArrayList<>();
+        ImageView imageDisplay = findViewById(R.id.imageDisplay);
+        TextView infoTitle = findViewById(R.id.infoTitle);
+        Button more_button = findViewById(R.id.more_button);
 
         Bundle data = getIntent().getExtras();
-        prediction = data.getString("Prediction");
+        String prediction = data.getString("Prediction");
         try{
             imageUri = Uri.parse(data.getString("imageURI"));
         } catch(NullPointerException e){
@@ -61,8 +54,9 @@ public class SpeciesInfo extends AppCompatActivity implements DataCellAdapter.It
             }
             imageDisplay.setImageBitmap(bm);
         }
-        photoTakenByCamera = data.getBoolean("camera");
-        type = data.getInt("type");
+        boolean photoTakenByCamera = data.getBoolean("camera");
+        int type = data.getInt("type");
+        String[] table;
         if(type == 0)
             table = new String[]{"plantdata"};
         else if(type == 1)
@@ -75,7 +69,7 @@ public class SpeciesInfo extends AppCompatActivity implements DataCellAdapter.It
         }
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
         databaseAccess.open();
-        ArrayList<SpeciesData> speciesData = databaseAccess.getData(table,prediction);
+        ArrayList<SpeciesData> speciesData = databaseAccess.getData(table, prediction);
         if(!speciesData.isEmpty()){
             for(int i=0;i<speciesData.size();i++){
                 if(speciesData.get(i).getValue() != null) {
@@ -87,7 +81,7 @@ public class SpeciesInfo extends AppCompatActivity implements DataCellAdapter.It
                         dataCells.add(new DataCell(speciesData.get(i).getKey(), speciesData.get(i).getValue()));
                 }
             }
-            mAdapter = new DataCellAdapter(this,dataCells);
+            RecyclerView.Adapter mAdapter = new DataCellAdapter(this, dataCells);
             recyclerView.setAdapter(mAdapter);
         }
         else{
