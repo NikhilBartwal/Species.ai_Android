@@ -8,15 +8,6 @@ from utils import *
 def display_homepage():
     welcome_container = st.beta_container()
     info_container = st.beta_container()
-
-    with welcome_container:
-        welcome_text, app_logo = st.beta_columns([2,1])
-        with welcome_text:
-            st.title('Welcome to Species.AI!')
-            st.subheader('Made with :heart: by - Nikhil Bartwal')
-        with app_logo:
-            st.image('logo.png')
-
     uploaded_file = st.file_uploader('Please upload an image here-> ')
 
     if uploaded_file is not None:
@@ -29,6 +20,14 @@ def display_homepage():
             labels = get_labels(category)
             display_inference(species, labels)
     else:
+        with welcome_container:
+            welcome_text, app_logo = st.beta_columns([2,1])
+            with welcome_text:
+                st.title('Welcome to Species.AI!')
+                st.subheader('Made with :heart: by - Nikhil Bartwal')
+            with app_logo:
+                st.image('logo.png')
+
         with info_container:
             animals_count, flowers_count, birds_count = st.beta_columns(3)
             with animals_count:

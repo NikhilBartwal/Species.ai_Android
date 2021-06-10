@@ -25,7 +25,9 @@ def load_model(category):
 def run_inference(model, image, input_details, output_details, fun_mode):
     expected_dims = input_details[0]['shape'][1:3]
     image = image.resize(expected_dims, Image.ANTIALIAS)
-    image = np.asarray(image, dtype=np.float32)/255.0
+
+    #Taking only 3 channels in case of any png image with 4 channels
+    image = np.asarray(image, dtype=np.float32)[:,:,:3]/255.0
     image = image.reshape([1, image.shape[0], image.shape[1], 3])
 
     model.set_tensor(input_details[0]['index'], image)
@@ -35,4 +37,18 @@ def run_inference(model, image, input_details, output_details, fun_mode):
     return species
 
 def display_inference(species_data, labels):
-    pass
+    species_data = species_data.flatten()
+    top_indices = species_data.argsort()[-3:][::-1]
+    top_scores = [round(species_data[index]*100, 2) for index in top_indices]
+    top_preds = [labels[index] for index in top_indices]
+
+    col_1, col_2, col_3 = st.beta_columns(3)
+    with col_1:
+        st.write("Species:", top_preds[0])
+        st.write("Probability:", str(top_scores[0]), "%")
+    with col_2:
+        st.write("Species:", top_preds[1])
+        st.write("Probability:", str(top_scores[1]), "%")
+    with col_3:
+        st.write("Species:", top_preds[2])
+        st.write("Probability:", str(top_scores[2]), "%")
