@@ -7,8 +7,8 @@ import tempfile
 def process_image(uploaded_file):
     tfile = tempfile.NamedTemporaryFile(delete=True)
     tfile.write(uploaded_file.read())
-    image = np.asarray(Image.open(tfile))
 
+    image = Image.open(tfile)
     return image
 
 def display_image(image):
@@ -17,12 +17,13 @@ def display_image(image):
 
     with image_column:
         st.image(image)
+        predict_button = st.button('Predict!')
     with category_column:
         category_type = st.radio('Please select category: ', category)
         st.write('Image dimensions:')
-        st.write(image.shape)
+        st.write(image.size)
         st.write('Currently, the app gives predictions for a certain confidence threshold')
         st.write('You can enable the fun mode to give predictions in all cases')
         fun_mode = st.checkbox('Enable fun mode', value=False)
 
-    return category_type.lower(), fun_mode
+    return category_type.lower(), fun_mode, predict_button

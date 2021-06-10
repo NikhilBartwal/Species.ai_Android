@@ -21,9 +21,13 @@ def display_homepage():
 
     if uploaded_file is not None:
         image = process_image(uploaded_file)
-        category, fun_mode = display_image(image)
-        model, input_details, output_details = load_model(category)
-        st.write(input_details, output_details)
+        category, fun_mode, predict_button = display_image(image)
+
+        if predict_button:
+            model, input_details, output_details = load_model(category)
+            species = run_inference(model, image, input_details, output_details, fun_mode)
+            labels = get_labels(category)
+            display_inference(species, labels)
     else:
         with info_container:
             animals_count, flowers_count, birds_count = st.beta_columns(3)
