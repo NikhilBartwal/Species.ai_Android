@@ -12,13 +12,13 @@ def display_homepage():
 
     if uploaded_file is not None:
         image = process_image(uploaded_file)
-        category, fun_mode, predict_button = display_image(image)
+        category, predict_button = display_image(image)
 
         if predict_button:
             model, input_details, output_details = load_model(category)
-            species = run_inference(model, image, input_details, output_details, fun_mode)
+            species = run_inference(model, image, input_details, output_details)
             labels = get_labels(category)
-            display_inference(species, labels)
+            display_inference(species, labels, category, image)
     else:
         with welcome_container:
             welcome_text, app_logo = st.beta_columns([2,1])
@@ -42,7 +42,7 @@ def display_homepage():
 
 def deploy_speciesai():
     options = ['Homepage', 'Start the App']
-    option = st.sidebar.selectbox('Please choose an option: ', options)
+    option = display_sidebar(options)
     if option == options[0]:
         display_homepage()
     elif option == options[1]:

@@ -22,8 +22,9 @@ def display_image(image):
         category_type = st.radio('Please select category: ', category)
         st.write('Image dimensions:')
         st.write(image.size)
-        st.write('Currently, the app gives predictions for a certain confidence threshold')
-        st.write('You can enable the fun mode to give predictions in all cases')
-        fun_mode = st.checkbox('Enable fun mode', value=False)
 
-    return category_type.lower(), fun_mode, predict_button
+    return category_type.lower(), predict_button
+
+def display_sidebar(options):
+    option = st.sidebar.selectbox('Please choose an option: ', options)
+    return option
